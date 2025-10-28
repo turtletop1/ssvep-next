@@ -30,8 +30,32 @@
 
 ## 代理协作提示
 - 与用户互动时保持中文回复，并在响应中解释关键决策。
-- 改动完成后主动给出建议的自测命令与潜在风险提醒。
+- 改动完成后主动给出建议的自测命令。
 
-## 待完成任务清单
-- [ ] 左右工具箱与属性面板支持拖拽调整宽度与折叠
-- [ ] 分享优化：引入 pako Gzip 压缩 URL，新增 `ShareModal` 展示复制按钮与二维码 `qrcode.react` ，同步更新分享按钮逻辑。修改现有“分享”按钮的逻辑，使其不再直接生成链接，而是打开 `ShareModal` 对话框。
+---
+
+# 验证工具概览
+
+仓库已整合最小导出 + Python 端分析闭环，详见 `docs/validation.md`。
+
+## 数据导出
+
+- 浏览器端一键运行评测示例并导出单个 JSON，文件命名遵循 `{date}_{browser}_{hz}_{mode}_{runID}.json`。
+- 导出结构包含环境元信息、刺激配置 `stims`、帧记录 `frames`、切换事件 `toggles`，便于直接交由脚本处理。
+- 数据默认存放于 `scripts/data/`，该路径已在 `.gitignore` 中排除。
+
+## Python 脚本（`scripts/measure/`）
+
+- `python -m scripts.measure <inputs> -o scripts/out/measure` 解析 JSON、输出 `summary.csv`、生成图表与 `report.md`。
+- 频率误差图使用折线 + 散点，误差棒表示 ±1 标准差；抖动与帧率稳定性指标同步写入汇总表。
+- 图表与报告默认输出到 `scripts/out/`，该目录同样已经忽略提交。
+
+## 产出物
+
+- `scripts/out/summary.csv`：逐刺激指标汇总。
+- `scripts/out/measure/plots/`：误差曲线、抖动箱线图、帧间时间分布。
+- `scripts/out/measure/report.md`：自动化报告，可直接嵌入评审材料。
+
+## 后续关注
+
+- 剩余前端体验任务（拖拽调宽、分享优化）保持在主待办清单中，完成后配合上述验证流程复测。

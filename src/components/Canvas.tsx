@@ -140,7 +140,6 @@ export function Canvas() {
         >
           {Object.values(items).map((item) => {
             const commonProps = {
-              key: item.id,
               item: item,
               onClick: () => handleItemClick(item.id),
               style: {
@@ -154,12 +153,12 @@ export function Canvas() {
 
             switch (item.type) {
               case 'text':
-                return <TextBox {...commonProps} />;
+                return <TextBox key={item.id} {...commonProps} />;
               case 'iframe':
-                return <IframeBox {...commonProps} />;
+                return <IframeBox key={item.id} {...commonProps} />;
               case 'stimulus':
               default:
-                return <StimulusBox {...commonProps} />;
+                return <StimulusBox key={item.id} {...commonProps} />;
             }
           })}
 

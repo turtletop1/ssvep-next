@@ -130,3 +130,9 @@ npm run preview
 
 欢迎提交 Issue 和 Pull Request！
 
+---
+
+## 待完成任务清单
+- [ ] 左右工具箱与属性面板支持拖拽调整宽度与折叠
+- [ ] 分享优化：引入 pako Gzip 压缩 URL，新增 `ShareModal` 展示复制按钮与二维码 `qrcode.react` ，同步更新分享按钮逻辑。修改现有“分享”按钮的逻辑，使其不再直接生成链接，而是打开 `ShareModal` 对话框。
+

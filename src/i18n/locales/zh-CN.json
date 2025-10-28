@@ -40,6 +40,10 @@
     "apply": "应用",
     "save": "保存",
     "jsonPlaceholder": "在此编辑项目 JSON 配置...",
+    "validation": {
+      "run": "基准测试",
+      "download": "下载日志"
+    },
     "examples": {
       "basic": "基础示例",
       "keyboard": "键盘示例",
@@ -107,7 +111,9 @@
     "debugInfo": "调试信息",
     "elapsedTime": "已运行时间",
     "remainingTime": "剩余时间",
-    "stimulusCount": "刺激方块数量"
+    "stimulusCount": "刺激方块数量",
+    "enter": "进入全屏",
+    "fullscreenRequired": "浏览器阻止了全屏，请点击按钮重试。"
   },
   "language": {
     "switch": "语言 | Language",
@@ -126,6 +132,10 @@
     "shareGenError": "生成分享链接失败",
     "noStimulusBoxes": "请先添加至少一个刺激方块",
     "saveFailed": "保存失败",
-    "noSavedProject": "没有已保存的项目"
+    "noSavedProject": "没有已保存的项目",
+    "validationConfirm": "此操作会清空当前画布，并以全屏模式运行 60 秒测评。是否继续？",
+    "validationInProgress": "评测运行中，请等待导出完成。",
+    "fullscreenDenied": "浏览器拒绝进入全屏，将以窗口模式运行测评。",
+    "validationNoData": "暂无测量数据，请先运行基准测试。"
   }
 }

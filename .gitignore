@@ -22,3 +22,6 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+scripts/data/
+scripts/out/
+scripts/measure/__pycache__/

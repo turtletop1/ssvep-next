@@ -18,6 +18,7 @@ export function FullscreenMode({ onExit }: FullscreenModeProps) {
   const { stats } = useStimulation();
   const [elapsedTime, setElapsedTime] = useState(0);
   const [showDebugInfo, setShowDebugInfo] = useState(false);
+  const [needsFullscreenPrompt, setNeedsFullscreenPrompt] = useState(!document.fullscreenElement);
 
   // 当刺激开始时重置计时器
   useEffect(() => {
@@ -66,16 +67,46 @@ export function FullscreenMode({ onExit }: FullscreenModeProps) {
     setShowDebugInfo(!showDebugInfo);
   };
 
-  // 进入全屏
+  const handleRequestFullscreen = async () => {
+    const element = document.documentElement;
+    if (!element || typeof element.requestFullscreen !== 'function') {
+      setNeedsFullscreenPrompt(true);
+      return;
+    }
+    try {
+      await element.requestFullscreen();
+      setNeedsFullscreenPrompt(false);
+    } catch {
+      setNeedsFullscreenPrompt(true);
+    }
+  };
+
+  // 尝试进入全屏
   useEffect(() => {
+    const element = document.documentElement;
+    if (document.fullscreenElement || !element || typeof element.requestFullscreen !== 'function') {
+      setNeedsFullscreenPrompt(!document.fullscreenElement);
+      return;
+    }
     const enterFullscreen = async () => {
       try {
-        await document.documentElement.requestFullscreen();
-      } catch (error) {
-        console.log('Fullscreen not available:', error);
+        await element.requestFullscreen();
+        setNeedsFullscreenPrompt(false);
+      } catch {
+        setNeedsFullscreenPrompt(true);
       }
     };
     enterFullscreen();
+  }, []);
+
+  useEffect(() => {
+    const handleChange = () => {
+      setNeedsFullscreenPrompt(!document.fullscreenElement);
+    };
+    document.addEventListener('fullscreenchange', handleChange);
+    return () => {
+      document.removeEventListener('fullscreenchange', handleChange);
+    };
   }, []);
 
   return (
@@ -182,6 +213,34 @@ export function FullscreenMode({ onExit }: FullscreenModeProps) {
               : `${Math.max(0, globalConfig.duration - elapsedTime)}s`
             }
           </Typography>
+        </Box>
+      )}
+
+      {needsFullscreenPrompt && (
+        <Box
+          sx={{
+            position: 'absolute',
+            bottom: 40,
+            left: '50%',
+            transform: 'translateX(-50%)',
+            backgroundColor: 'rgba(0, 0, 0, 0.7)',
+            color: 'white',
+            py: 2,
+            px: 3,
+            borderRadius: 2,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: 1,
+            zIndex: 10000,
+          }}
+        >
+          <Typography variant="body2" sx={{ textAlign: 'center' }}>
+            {t('fullscreen.fullscreenRequired')}
+          </Typography>
+          <Button variant="contained" size="small" onClick={handleRequestFullscreen}>
+            {t('fullscreen.enter')}
+          </Button>
         </Box>
       )}
 

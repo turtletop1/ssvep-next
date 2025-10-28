@@ -6,6 +6,7 @@ import { useStore } from '../stores/canvasStore';
 import { ProjectManager } from '../utils/projectManager';
 import { useDemoSetup } from '../hooks/useDemoSetup';
 import { JsonEditorModal } from './JsonEditorModal';
+import { useMeasurementStore } from '../stores/measurementStore';
 
 function DraggableStimulusBox() {
   const { t } = useTranslation();
@@ -142,6 +143,7 @@ export function Toolbox() {
     loadProject,
     clearAll,
     addItem,
+    updateGlobalConfig,
   } = useStore();
 
   const [openMatrixDialog, setOpenMatrixDialog] = useState(false);
@@ -152,6 +154,39 @@ export function Toolbox() {
 
   const { loadBasicDemoProject, loadKeyboardDemoProject, loadGamepadDemoProject } = useDemoSetup();
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const manualDownload = useMeasurementStore((state) => state.manualDownload);
+  const hasValidationExport = useMeasurementStore((state) => Boolean(state.lastExportPayload));
+
+  const requestFullscreenIfNeeded = async (): Promise<boolean> => {
+    if (document.fullscreenElement) {
+      return true;
+    }
+    const el = document.documentElement as HTMLElement & {
+      webkitRequestFullscreen?: () => Promise<void> | void;
+      mozRequestFullScreen?: () => Promise<void> | void;
+      msRequestFullscreen?: () => Promise<void> | void;
+    };
+    if (!el) return false;
+    try {
+      const fn =
+        el.requestFullscreen?.bind(el) ??
+        el.webkitRequestFullscreen?.bind(el) ??
+        el.mozRequestFullScreen?.bind(el) ??
+        el.msRequestFullscreen?.bind(el);
+      if (!fn) {
+        console.warn('No fullscreen API available on element');
+        return false;
+      }
+      const ret = fn();
+      if (ret && typeof (ret as Promise<void>).then === 'function') {
+        await (ret as Promise<void>);
+      }
+      return Boolean(document.fullscreenElement);
+    } catch (error) {
+      console.warn('Fullscreen request rejected:', error);
+      return false;
+    }
+  };
 
   const handleSave = () => {
     try {
@@ -275,7 +310,102 @@ export function Toolbox() {
       alert(t('messages.noStimulusBoxes'));
       return;
     }
-    startStimulation();
+    requestFullscreenIfNeeded().finally(() => {
+      startStimulation();
+    });
+  };
+
+  const handleValidationRun = () => {
+    if (globalConfig.isRunning) {
+      alert(t('messages.validationInProgress'));
+      return;
+    }
+
+    const measurementState = useMeasurementStore.getState();
+    if (measurementState.isRecording) {
+      alert(t('messages.validationInProgress'));
+      return;
+    }
+
+    if (!confirm(t('messages.validationConfirm'))) {
+      return;
+    }
+
+    useMeasurementStore.getState().reset();
+    clearAll();
+
+    const defaultStimulus = useStore.getState().globalConfig.defaultStimulus;
+    const canvasSize = useStore.getState().globalConfig.canvasSize;
+    const itemWidth = defaultStimulus.size.width;
+    const itemHeight = defaultStimulus.size.height;
+    const gap = Math.max(40, Math.round(Math.min(itemWidth, itemHeight) * 0.6));
+    const frequencies = Array.from({ length: 8 }, (_, idx) => 8 + idx);
+    const columns = 4;
+    const rows = Math.ceil(frequencies.length / columns);
+    const totalWidth = columns * itemWidth + (columns - 1) * gap;
+    const totalHeight = rows * itemHeight + (rows - 1) * gap;
+    const startX = (canvasSize.width - totalWidth) / 2;
+    const startY = (canvasSize.height - totalHeight) / 2;
+
+    frequencies.forEach((frequency, index) => {
+      const row = Math.floor(index / columns);
+      const col = index % columns;
+      const x = startX + col * (itemWidth + gap);
+      const y = startY + row * (itemHeight + gap);
+      const stimId = `validation-${frequency.toString().padStart(2, '0')}hz`;
+      addItem(
+        {
+          type: 'stimulus',
+          text: `${frequency} Hz`,
+          frequency,
+          size: { width: itemWidth, height: itemHeight },
+          color: defaultStimulus.color,
+          position: { x: 0, y: 0 },
+        },
+        { x, y },
+        { id: stimId }
+      );
+    });
+
+    updateGlobalConfig({
+      duration: 60,
+      waveformType: 'square',
+      showTimeDisplay: true,
+      backgroundColor: '#000000',
+    });
+
+    const stateAfterSetup = useStore.getState();
+    const stimMetas = Object.values(stateAfterSetup.items)
+      .filter((item) => item.type === 'stimulus')
+      .map((item) => ({
+        stim_id: item.id,
+        wave: stateAfterSetup.globalConfig.waveformType,
+        f_cfg: item.frequency ?? null,
+        label: item.text,
+      }));
+
+    requestFullscreenIfNeeded().then((fullscreenGranted) => {
+      if (!fullscreenGranted) {
+        alert(t('messages.fullscreenDenied'));
+      }
+      useMeasurementStore.getState().prepare({
+        mode: fullscreenGranted ? 'fullscreen' : 'windowed',
+        stims: stimMetas,
+        duration_s: stateAfterSetup.globalConfig.duration > 0 ? stateAfterSetup.globalConfig.duration : null,
+        runLabel: 'validation',
+      });
+
+      startStimulation();
+    });
+  };
+
+  const handleValidationDownload = () => {
+    const measurementState = useMeasurementStore.getState();
+    if (!measurementState.lastExportPayload) {
+      alert(t('messages.validationNoData'));
+      return;
+    }
+    manualDownload();
   };
 
   const handleOpenJsonEditor = () => {
@@ -347,6 +477,26 @@ export function Toolbox() {
           >
             {t('properties.startStop')}
           </Button>
+          <Box sx={{ display: 'flex', gap: 1, mb: 1 }}>
+            <Button
+              variant="outlined"
+              color="secondary"
+              sx={{ flex: 1 }}
+              onClick={handleValidationRun}
+              disabled={globalConfig.isRunning}
+            >
+              {t('toolbox.validation.run')}
+            </Button>
+            <Button
+              variant="outlined"
+              color="secondary"
+              sx={{ flex: 1 }}
+              onClick={handleValidationDownload}
+              disabled={!hasValidationExport}
+            >
+              {t('toolbox.validation.download')}
+            </Button>
+          </Box>
           {/* <Button
             variant="outlined"
             color="secondary"

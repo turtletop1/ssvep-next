@@ -40,6 +40,10 @@
     "apply": "Apply",
     "save": "Save",
     "jsonPlaceholder": "Edit project JSON configuration here...",
+    "validation": {
+      "run": "Benchmark",
+      "download": "Download Log"
+    },
     "examples": {
       "basic": "Basic Example",
       "keyboard": "Keyboard Example",
@@ -107,7 +111,9 @@
     "debugInfo": "Debug Info",
     "elapsedTime": "Elapsed Time",
     "remainingTime": "Remaining Time",
-    "stimulusCount": "Stimulus Count"
+    "stimulusCount": "Stimulus Count",
+    "enter": "Enter Fullscreen",
+    "fullscreenRequired": "Fullscreen was blocked. Click to retry."
   },
   "language": {
     "switch": "语言 | Language",
@@ -125,6 +131,10 @@
     "projectSaveError": "Failed to save project",
     "shareGenError": "Failed to generate share link",
     "noStimulusBoxes": "Please add at least one stimulus box first",
-    "saveFailed": "save failed"
+    "saveFailed": "save failed",
+    "validationConfirm": "This will clear the canvas and run a 60s fullscreen measurement. Continue?",
+    "validationInProgress": "Validation run already in progress. Please wait for export.",
+    "fullscreenDenied": "Browser denied fullscreen request; running validation in windowed mode.",
+    "validationNoData": "No measurement data yet. Run the benchmark first."
   }
 }

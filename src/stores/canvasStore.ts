@@ -62,7 +62,7 @@ interface CanvasStore {
   globalConfig: GlobalConfig;
   viewConfig: ViewConfig; // 视图配置
   stimulationState: Record<string, StimulusState>; // 存储每个刺激方块的实时状态
-  addItem: (item: Omit<StimulusItem, 'id'>, position: { x: number; y: number }) => void;
+  addItem: (item: Omit<StimulusItem, 'id'>, position: { x: number; y: number }, options?: { id?: string }) => void;
   updateItem: (id: string, updates: Partial<StimulusItem>) => void;
   moveItem: (id: string, position: { x: number; y: number }) => void;
   removeItem: (id: string) => void;
@@ -102,9 +102,12 @@ export const useStore = create<CanvasStore>((set) => ({
       color: '#ffffff',
     },
   },
-  addItem: (item: Omit<StimulusItem, 'id'>, position: { x: number; y: number }) => {
-    const id = `item-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`;
+  addItem: (item: Omit<StimulusItem, 'id'>, position: { x: number; y: number }, options) => {
     set((state) => {
+      const customId = options?.id?.trim();
+      const id = customId && !state.items[customId]
+        ? customId
+        : `item-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`;
       const defaultProps = state.globalConfig.defaultStimulus;
       const itemType = item.type || 'stimulus';
 
@@ -209,10 +212,12 @@ export const useStore = create<CanvasStore>((set) => ({
   startStimulation: () => set((state) => ({
     globalConfig: { ...state.globalConfig, isRunning: true },
   })),
-  stopStimulation: () => set((state) => ({
-    globalConfig: { ...state.globalConfig, isRunning: false },
-    stimulationState: {}, // 停止时清空刺激状态
-  })),
+  stopStimulation: () => set((state) => {
+    return {
+      globalConfig: { ...state.globalConfig, isRunning: false },
+      stimulationState: {}, // 停止时清空刺激状态
+    };
+  }),
   resetView: () => set(() => ({
     viewConfig: {
       scale: 1,
