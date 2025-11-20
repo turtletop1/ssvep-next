@@ -92,19 +92,51 @@ export function PropertiesPanel() {
           />
 
           {selectedItem.type === 'stimulus' && (
-            <Box sx={{ mt: 2, mb: 2 }}>
-              <Typography gutterBottom>
-                {t('properties.frequency')}：{selectedItem.frequency} Hz
-              </Typography>
-              <Slider
-                value={selectedItem.frequency}
-                onChange={(_, value) => handleItemUpdate('frequency', value)}
-                min={1}
-                max={60}
-                step={0.1}
-                valueLabelDisplay="auto"
-              />
-            </Box>
+            <>
+				{/* Preset Stimulus Image Library (auto-select by frequency) */}
+				<FormControl fullWidth margin="normal" size="small">
+				  <InputLabel>Preset Stimulus Library (auto by frequency)</InputLabel>
+				  <Select
+					value=""
+					onChange={(e) => {
+					  const map: Record<string, string> = {
+						'Onigiri': '/images/Onigiri.png',
+						'Ramen': '/images/Ramen.png',
+						'dumpling': '/images/dumpling.png',
+						'sushi': '/images/sushi.png',
+						'omurice': '/images/omurice.png',
+						'curryrice': '/images/curryrice.png',
+					  };
+					  const url = map[e.target.value];
+					  if (url) {
+						handleItemUpdate('imageUrl', url);
+					  }
+					}}
+					displayEmpty
+				  >
+					<MenuItem value="" disabled>
+					  Choose a classic stimulus (auto-fills URL)
+					</MenuItem>
+					<MenuItem value="Onigiri">Onigiri</MenuItem>
+					<MenuItem value="Ramen">Ramen</MenuItem>
+					<MenuItem value="dumpling">dumpling</MenuItem>
+					<MenuItem value="sushi">sushi</MenuItem>
+					<MenuItem value="omurice">omurice</MenuItem>
+					<MenuItem value="curryrice">curry rice</MenuItem>
+				  </Select>
+				</FormControl>
+
+				{/* Original Image URL field – kept for manual override */}
+				<TextField
+				  label="Image URL (optional)"
+				  value={selectedItem.imageUrl || ''}
+				  onChange={(e) => handleItemUpdate('imageUrl', e.target.value || '')}
+				  fullWidth
+				  margin="normal"
+				  size="small"
+				  helperText="You can also enter a custom path manually"
+				/>
+			  </>
           )}
 
           {selectedItem.type === 'text' && (

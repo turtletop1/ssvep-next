@@ -14,125 +14,127 @@ export function StimulusBox({ item, onClick, style }: StimulusBoxProps) {
   const { attributes, listeners, setNodeRef, transform, isDragging } = useDraggable({
     id: item.id,
   });
-  
+
   const { selectedItemId, globalConfig, stimulationState } = useStore();
-  
+
   const isSelected = selectedItemId === item.id;
-  
-  // 从 store 获取当前刺激状态，如果不存在则默认为可见
+
+  // 當前刺激的亮度（0~1）
   const currentStimulationState = stimulationState[item.id];
   const brightness = currentStimulationState?.brightness ?? 1;
 
-  const getOpacity = () => {
-    if (!globalConfig.isRunning) {
-      return 1; // 非运行状态下完全不透明
-    }
-    return brightness;
-  };
-
-  const getTextColor = () => {
-    // todo
-    if (!globalConfig.isRunning) {
-      return '#000000';
-    }
-    return '#00000088';
-
-    // if (globalConfig.waveformType === 'sine') {
-    //   // 正弦波模式：根据透明度和背景选择合适的文本颜色
-    //   // 当透明度较高时使用深色文本，透明度较低时使用浅色文本
-    //   return brightness > 0.5 ? '#000000' : '#ffffff';
-    // } else {
-    //   // 方波模式：使用原始逻辑
-    //   return isVisible ? '#000000' : '#ffffff';
-    // }
-  };
-
-  const combinedStyle: React.CSSProperties = {
-    ...style,
-  };
-
   const handleClick = (e: React.MouseEvent) => {
     e.stopPropagation();
-    // 拖动由拖动手柄处理，因此对框本身的任何单击都是用于选择的。
-    if (onClick) {
-      onClick();
-    }
+    if (onClick) onClick();
   };
 
   return (
     <Box
       ref={setNodeRef}
-      style={combinedStyle}
-      // {...listeners} and {...attributes} are removed from here
+      style={{
+        ...style,
+        transform: transform ? `translate3d(${transform.x}px, ${transform.y}px, 0)` : undefined,
+      }}
       onClick={handleClick}
       sx={{
-        position: 'relative', // Needed to position the drag handle
+        position: 'relative',
         width: item.size.width,
         height: item.size.height,
-        border: globalConfig.isRunning 
-          ? ('2px solid transparent')
-          : (isSelected ? '2px solid #1976d2' : '2px solid rgba(0, 0, 0, 0.1)'),
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        cursor: 'pointer', // Changed from 'grab' to 'pointer'
-        backgroundColor: item.color,
-        color: getTextColor(),
-        opacity: globalConfig.isRunning 
-          ? getOpacity()
-          : (isDragging ? 0.5 : 1),
+        border: globalConfig.isRunning
+          ? '2px solid transparent'
+          : isSelected
+            ? '2px solid #1976d2'
+            : '2px solid rgba(0, 0, 0, 0.12)',
+        borderRadius: 1,
+        overflow: 'hidden',               // 重要：防止圖片溢出圓角
+        cursor: 'pointer',
+        background: item.imageUrl
+          ? `url(${item.imageUrl}) center/cover no-repeat`
+          : item.color,
+        // 圖片模式用 filter 控制明暗，純色模式用 opacity（兩者效果一致）
+        filter: item.imageUrl && globalConfig.isRunning
+          ? `brightness(${brightness})`
+          : undefined,
+        opacity: !item.imageUrl && globalConfig.isRunning
+          ? brightness
+          : isDragging
+            ? 0.5
+            : 1,
         transition: globalConfig.isRunning ? 'none' : 'all 0.2s ease',
         userSelect: 'none',
-        transform: transform ? `translate3d(${transform.x}px, ${transform.y}px, 0)` : 'none',
         '&:hover': {
           border: isSelected ? '2px solid #1976d2' : '2px solid rgba(0, 0, 0, 0.5)',
-          boxShadow: '0 2px 8px rgba(0,0,0,0.2)',
+          boxShadow: 6,
         },
       }}
-    >      
-      {!globalConfig.isRunning && ( // 仅在非运行状态下显示拖动手柄
+    >
+      {/* 拖拽手柄（僅在編輯模式顯示） */}
+      {!globalConfig.isRunning && (
         <Box
           {...listeners}
           {...attributes}
           sx={{
             position: 'absolute',
-            top: 0,
-            right: 0,
+            top: 4,
+            right: 4,
+            zIndex: 10,
             cursor: isDragging ? 'grabbing' : 'grab',
             touchAction: 'none',
             color: 'rgba(0, 0, 0, 0.54)',
-            padding: '2px',
+            padding: '4px',
+            borderRadius: '50%',
             '&:hover': {
-              backgroundColor: 'rgba(0, 0, 0, 0.04)',
-              borderRadius: '50%',
-            }
+              bgcolor: 'rgba(0, 0, 0, 0.08)',
+            },
           }}
         >
           <DragIndicatorIcon fontSize="small" />
         </Box>
       )}
-      <Typography 
-        variant="body2" 
-        align="center"
+
+      {/* 文字 + 頻率標籤 */}
+      <Typography
+        variant="body2"
         sx={{
-          width: '100%',
-          height: '100%',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          fontSize: Math.min(item.size.width, item.size.height) / 8,
+          position: 'absolute',
+          bottom: 8,
+          left: '50%',
+          transform: 'translateX(-50%)',
+          bg: 'rgba(0,0,0,0.5)',
+          color: '#fff',
+          px: 1.5,
+          py: 0.5,
+          borderRadius: 1,
           fontWeight: 'bold',
-          pointerEvents: 'none', // 让文字不干扰点击
+          fontSize: Math.min(item.size.width, item.size.height) / 10,
+          pointerEvents: 'none',
+          whiteSpace: 'nowrap',
+          backdropFilter: 'blur(2px)',
         }}
       >
         {item.text}
-        {!globalConfig.isRunning && (
-          <Box component="span" sx={{ display: 'block', fontSize: '0.8em', opacity: 0.7 }}>
-            {item.frequency}Hz
-          </Box>
-        )}
       </Typography>
+
+      {/* 編輯模式下額外顯示頻率（角落） */}
+      {!globalConfig.isRunning && (
+        <Typography
+          variant="caption"
+          sx={{
+            position: 'absolute',
+            top: 6,
+            left: 6,
+            color: 'rgba(0,0,0,0.6)',
+            bgcolor: 'rgba(255,255,255,0.8)',
+            px: 1,
+            py: 0.3,
+            borderRadius: 1,
+            fontWeight: 'medium',
+            pointerEvents: 'none',
+          }}
+        >
+          {item.frequency} Hz
+        </Typography>
+      )}
     </Box>
   );
 }
