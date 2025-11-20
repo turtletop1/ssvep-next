@@ -10,6 +10,7 @@ export interface StimulusItem {
   position: { x: number; y: number };
   size: { width: number; height: number };
   color: string;
+  imageUrl?: string;
   isRunning?: boolean;
   // text 控件特有属性
   fontSize?: number;
