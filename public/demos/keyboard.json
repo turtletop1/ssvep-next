@@ -7,7 +7,8 @@
       "frequency": 8.0,
       "position": { "x": 50, "y": 100 },
       "size": { "width": 60, "height": 60 },
-      "color": "#ffffff"
+      "color": "#ffffff",
+	  "imageUrl": "/images/Onigiri.png"
     },
     "key-w": {
       "id": "key-w",
@@ -16,7 +17,8 @@
       "frequency": 8.5,
       "position": { "x": 120, "y": 100 },
       "size": { "width": 60, "height": 60 },
-      "color": "#ffffff"
+      "color": "#ffffff",
+	  "imageUrl": "/images/Ramen.png"
     },
     "key-e": {
       "id": "key-e",
@@ -25,7 +27,8 @@
       "frequency": 9.0,
       "position": { "x": 190, "y": 100 },
       "size": { "width": 60, "height": 60 },
-      "color": "#ffffff"
+      "color": "#ffffff",
+	  "imageUrl": "/images/dumpling.png"
     },
     "key-r": {
       "id": "key-r",
@@ -34,7 +37,8 @@
       "frequency": 9.5,
       "position": { "x": 260, "y": 100 },
       "size": { "width": 60, "height": 60 },
-      "color": "#ffffff"
+      "color": "#ffffff",
+	  "imageUrl": "/images/sushi.png"
     },
     "key-t": {
       "id": "key-t",
@@ -43,7 +47,8 @@
       "frequency": 10.0,
       "position": { "x": 330, "y": 100 },
       "size": { "width": 60, "height": 60 },
-      "color": "#ffffff"
+      "color": "#ffffff",
+	  "imageUrl": "/images/omurice.png"
     },
     "key-y": {
       "id": "key-y",
@@ -52,7 +57,8 @@
       "frequency": 10.5,
       "position": { "x": 400, "y": 100 },
       "size": { "width": 60, "height": 60 },
-      "color": "#ffffff"
+      "color": "#ffffff",
+	  "imageUrl": "/images/curryrice.png"
     },
     "key-u": {
       "id": "key-u",
