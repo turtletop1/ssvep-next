@@ -95,7 +95,6 @@ export function PropertiesPanel() {
             <>
 				{/* Preset Stimulus Image Library (auto-select by frequency) */}
 				<FormControl fullWidth margin="normal" size="small">
-				  <InputLabel>Preset Stimulus Library (auto by frequency)</InputLabel>
 				  <Select
 					value=""
 					onChange={(e) => {
@@ -106,6 +105,17 @@ export function PropertiesPanel() {
 						'sushi': '/images/sushi.png',
 						'omurice': '/images/omurice.png',
 						'curryrice': '/images/curryrice.png',
+						'shimp': '/images/shimp.png',
+						'crab': '/images/crab.png',
+						'oysters': '/images/oysters.png',
+						'lobster': '/images/lobster.png',
+						'fish': '/images/fish.png',
+						'cake': '/images/cake.png',
+						'icecreame': '/images/icecreame.png',
+						'donuts': '/images/donuts.png',
+						'pudding': '/images/pudding.png',
+						'pancake': '/images/pancake.png',
+						'candy': '/images/candy.png'
 					  };
 					  const url = map[e.target.value];
 					  if (url) {
@@ -115,7 +125,7 @@ export function PropertiesPanel() {
 					displayEmpty
 				  >
 					<MenuItem value="" disabled>
-					  Choose a classic stimulus (auto-fills URL)
+					  Choose a stimulus picture
 					</MenuItem>
 					<MenuItem value="Onigiri">Onigiri</MenuItem>
 					<MenuItem value="Ramen">Ramen</MenuItem>
@@ -123,6 +133,17 @@ export function PropertiesPanel() {
 					<MenuItem value="sushi">sushi</MenuItem>
 					<MenuItem value="omurice">omurice</MenuItem>
 					<MenuItem value="curryrice">curry rice</MenuItem>
+					<MenuItem value="shimp">shimp</MenuItem>
+					<MenuItem value="crab">crab</MenuItem>
+					<MenuItem value="oysters">oysters</MenuItem>
+					<MenuItem value="lobster">lobster</MenuItem>
+					<MenuItem value="fish">fish</MenuItem>
+					<MenuItem value="cake">cake</MenuItem>
+					<MenuItem value="icecreame">ice creame</MenuItem>
+					<MenuItem value="donuts">donuts</MenuItem>
+					<MenuItem value="pudding">pudding</MenuItem>
+					<MenuItem value="pancake">pancake</MenuItem>
+					<MenuItem value="candy">candy</MenuItem>
 				  </Select>
 				</FormControl>
 
