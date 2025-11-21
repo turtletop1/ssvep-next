@@ -67,7 +67,8 @@
       "frequency": 11.0,
       "position": { "x": 470, "y": 100 },
       "size": { "width": 60, "height": 60 },
-      "color": "#ffffff"
+      "color": "#ffffff",
+	  "imageUrl": "/images/crab.png"
     },
     "key-i": {
       "id": "key-i",
@@ -76,7 +77,8 @@
       "frequency": 11.5,
       "position": { "x": 540, "y": 100 },
       "size": { "width": 60, "height": 60 },
-      "color": "#ffffff"
+      "color": "#ffffff",
+	  "imageUrl": "/images/shimp.png"
     },
     "key-o": {
       "id": "key-o",
@@ -85,7 +87,8 @@
       "frequency": 12.0,
       "position": { "x": 610, "y": 100 },
       "size": { "width": 60, "height": 60 },
-      "color": "#ffffff"
+      "color": "#ffffff",
+	  "imageUrl": "/images/oysters.png"
     },
     "key-p": {
       "id": "key-p",
@@ -94,7 +97,8 @@
       "frequency": 12.5,
       "position": { "x": 680, "y": 100 },
       "size": { "width": 60, "height": 60 },
-      "color": "#ffffff"
+      "color": "#ffffff",
+	  "imageUrl": "/images/squid.png"
     },
     "key-a": {
       "id": "key-a",
@@ -103,7 +107,8 @@
       "frequency": 13.0,
       "position": { "x": 85, "y": 170 },
       "size": { "width": 60, "height": 60 },
-      "color": "#ffffff"
+      "color": "#ffffff",
+	  "imageUrl": "/images/lobster.png"
     },
     "key-s": {
       "id": "key-s",
@@ -112,7 +117,8 @@
       "frequency": 13.5,
       "position": { "x": 155, "y": 170 },
       "size": { "width": 60, "height": 60 },
-      "color": "#ffffff"
+      "color": "#ffffff",
+	  "imageUrl": "/images/fish.png"
     },
     "key-d": {
       "id": "key-d",
@@ -121,7 +127,8 @@
       "frequency": 14.0,
       "position": { "x": 225, "y": 170 },
       "size": { "width": 60, "height": 60 },
-      "color": "#ffffff"
+      "color": "#ffffff",
+	  "imageUrl": "/images/cake.png"
     },
     "key-f": {
       "id": "key-f",
@@ -130,7 +137,8 @@
       "frequency": 14.5,
       "position": { "x": 295, "y": 170 },
       "size": { "width": 60, "height": 60 },
-      "color": "#ffffff"
+      "color": "#ffffff",
+	  "imageUrl": "/images/icecreame.png"
     },
     "key-g": {
       "id": "key-g",
@@ -139,7 +147,8 @@
       "frequency": 15.0,
       "position": { "x": 365, "y": 170 },
       "size": { "width": 60, "height": 60 },
-      "color": "#ffffff"
+      "color": "#ffffff",
+	  "imageUrl": "/images/donuts.png"
     },
     "key-h": {
       "id": "key-h",
@@ -148,7 +157,8 @@
       "frequency": 15.5,
       "position": { "x": 435, "y": 170 },
       "size": { "width": 60, "height": 60 },
-      "color": "#ffffff"
+      "color": "#ffffff",
+	  "imageUrl": "/images/pudding.png"
     },
     "key-j": {
       "id": "key-j",
@@ -157,7 +167,8 @@
       "frequency": 16.0,
       "position": { "x": 505, "y": 170 },
       "size": { "width": 60, "height": 60 },
-      "color": "#ffffff"
+      "color": "#ffffff",
+	  "imageUrl": "/images/pancake.png"
     },
     "key-k": {
       "id": "key-k",
@@ -166,7 +177,8 @@
       "frequency": 16.5,
       "position": { "x": 575, "y": 170 },
       "size": { "width": 60, "height": 60 },
-      "color": "#ffffff"
+      "color": "#ffffff",
+	  "imageUrl": "/images/candy.png"
     },
     "key-l": {
       "id": "key-l",
