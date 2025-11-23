@@ -107,6 +107,7 @@ export function PropertiesPanel() {
 						'curryrice': '/images/curryrice.png',
 						'shimp': '/images/shimp.png',
 						'crab': '/images/crab.png',
+						'squid': '/images/squid.png',
 						'oysters': '/images/oysters.png',
 						'lobster': '/images/lobster.png',
 						'fish': '/images/fish.png',
@@ -135,6 +136,7 @@ export function PropertiesPanel() {
 					<MenuItem value="curryrice">curry rice</MenuItem>
 					<MenuItem value="shimp">shimp</MenuItem>
 					<MenuItem value="crab">crab</MenuItem>
+					<MenuItem value="squid">squid</MenuItem>
 					<MenuItem value="oysters">oysters</MenuItem>
 					<MenuItem value="lobster">lobster</MenuItem>
 					<MenuItem value="fish">fish</MenuItem>
