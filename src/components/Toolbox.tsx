@@ -617,15 +617,7 @@ export function Toolbox() {
         <Divider sx={{ my: 2 }} />
 
 
-        <Box sx={{ textAlign: 'center', color: '#999' }}>
-          <Typography variant="caption">
-            {t('toolbox.version', { version: process.env.APP_VERSION })}
-          </Typography>
-          <br />
-          <Typography variant="caption">
-            by Framist | <a href="https://github.com/framist/ssvep-next">Github</a>
-          </Typography>
-        </Box>
+
 
       </Box>
 

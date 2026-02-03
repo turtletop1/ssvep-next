@@ -19,24 +19,16 @@
     },
     "project": {
       "title": "Project Management",
-      "save": "Save Project",
-      "load": "Load Project",
-      "share": "Share Project",
-      "export": "Export Project",
-      "import": "Import Project",
+      "save": "Save Project 💾",
+      "load": "Load Project ⏳",
+      "share": "Share Project 🔗",
+      "export": "Export Project 📤",
+      "import": "Import Project 📥",
       "examples": "Example Projects",
       "importAriaLabel": "Import project file"
     },
-    "editJson": "Edit Project & AI ✨",
-    "aiAssistant": "✨ AI Assistant",
-    "openaiApiKey": "OpenAI API Key [Local browser use only]",
-    "apiUrl": "OpenAI compatible API URL",
+    "editJson": "Edit Project ✏️",
     "modelName": "Model Name",
-    "saveApiKey": "Save API Settings [Local browser storage only]",
-    "aiPrompt": "AI Instruction",
-    "aiPromptPlaceholder": "e.g.: Help me create a 4x4 stimulus matrix, starting from 10Hz and increasing by 1Hz",
-    "aiGenerate": "AI Generate ✨",
-    "aiGenerating": "Generating...",
     "apply": "Apply",
     "save": "Save",
     "jsonPlaceholder": "Edit project JSON configuration here...",
@@ -49,8 +41,7 @@
       "keyboard": "Keyboard Example",
       "gamepad": "Gamepad Example",
       "speller": "Speller Example"
-    },
-    "version": "Version {{version}}"
+    }
   },
   "canvas": {
     "title": "Canvas",
